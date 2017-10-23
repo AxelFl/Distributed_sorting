@@ -1,6 +1,5 @@
 import compare
 import random
-import threading
 
 
 def bubble(list, connn):

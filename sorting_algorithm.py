@@ -1,6 +1,9 @@
 import compare
 import random
 
+# All different sorting methods
+# Not all of them work
+
 
 def bubble(list, connn):
 	for i in range(len(list) - 1, 0, -1):

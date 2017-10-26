@@ -5,10 +5,10 @@ import random
 # Not all of them work
 
 
-def bubble(list, connn):
+def bubble(list, connn, inactive_clients):
 	for i in range(len(list) - 1, 0, -1):
 		for b in range(0, i):
-			if compare.left_is_smaller(list[b], list[b + 1], connn):
+			if compare.left_is_smaller(list[b], list[b + 1], connn, inactive_clients):
 				pass
 			else:
 				list[b], list[b + 1] = list[b + 1], list[b]
@@ -43,32 +43,32 @@ def oddEven(x, conn):
 	return x
 
 
-def quick(list, conn):
+def quick(list, conn, inactive_clients):
 	if len(list) <= 1:
 		return list
 	list1 = []
 	list2 = []
 	pivot = random.choice(list)
 	for number in list:
-		if compare.left_is_smaller(pivot, number, conn):
+		if compare.left_is_smaller(pivot, number, conn, inactive_clients):
 			list2.append(number)
 		else:
 			list1.append(number)
-	return quick(list1, conn) + quick(list2, conn)
+	return quick(list1, conn, inactive_clients) + quick(list2, conn, inactive_clients)
 
 
-def semiQuick(list ,conn):
+def semiQuick(list, conn, inactive_clients):
 	if len(list) <= 1:
 		return list
 	if len(list) <= 3:
-		return bubble(list, conn)
+		return bubble(list, conn, inactive_clients)
 	list1 = []
 	list2 = []
 	pivot = random.choice(list)
 	for number in list:
-		if compare.left_is_smaller(pivot, number, conn):
+		if compare.left_is_smaller(pivot, number, conn, inactive_clients):
 			list2.append(number)
 		else:
 			list1.append(number)
-	return semiQuick(list1, conn) + semiQuick(list2, conn)
+	return semiQuick(list1, conn, inactive_clients) + semiQuick(list2, conn, inactive_clients)
 

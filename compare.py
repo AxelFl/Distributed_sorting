@@ -1,7 +1,7 @@
 import random
 
 
-def left_is_smaller(x, y, all_connections):
+def left_is_smaller(x, y, all_connections, closed_clients):
 	# Cheating to make it easier to understand
 	if x == y:
 		return False
@@ -15,7 +15,9 @@ def left_is_smaller(x, y, all_connections):
 		for item in all_connections:
 			if item != active_client:
 				inactive_clients.append(item)
-	active_client[2] += 1
+
+	# Add a point to the active clients score
+	active_client[4] += 1
 
 	# Send a message to all the waiting clients
 	for client in inactive_clients:
@@ -28,16 +30,20 @@ def left_is_smaller(x, y, all_connections):
 
 	# Remove the client without crashing the system
 	if "exit" in data.lower():
-		active_client[0].close()  # Close the clients connection
+		# Close the clients connection
+		closed_clients.append(active_client)
+		active_client[0].close()
 		all_connections.remove(active_client)  # Remove the client from the list of clients
+
 		# Asking the question to the new list of clients
-		return left_is_smaller(x, y, all_connections)
+		return left_is_smaller(x, y, all_connections, closed_clients)
 
 	# Return the appropriate answer
 	if "y" in data.lower():
 		return False
 	elif "n" in data.lower():
 		return True
+
 	# Ask again if no answer was found
 	else:
-		return left_is_smaller(x, y, all_connections)
+		return left_is_smaller(x, y, all_connections, closed_clients)

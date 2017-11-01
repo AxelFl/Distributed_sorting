@@ -28,6 +28,7 @@ while not found_port:
 		s.bind((host, port))
 		found_port = True
 	except OSError:
+		# Try to grab the next port
 		port += 1
 
 # Announce the IP and Port to the terminal
@@ -35,16 +36,11 @@ print("On ip", get_ip_address())
 print("On port", port)
 
 # The first connection outside of the loop to avoid issues with server having no clients
-s.listen(1)
+s.listen(2)
 newClient, newAddr = s.accept()
 connections.append([newClient, newAddr, 0, "", 0])
 connections[len(connections) - 1][0].sendall("What is your name?\n".encode("utf-8"))
 connections[len(connections) - 1][3] = (connections[len(connections) - 1][0].recv(1024)).decode("utf-8")
-
-for inactive in inactive_connections:
-	if inactive[3] == connections[len(connections) - 1][3]:
-		connections[len(connections) - 1][2] = inactive[2]
-		inactive_connections.remove(inactive)
 
 s.settimeout(0.5)
 
@@ -90,7 +86,7 @@ while True:
 					client[2] += client[4]
 			for client in connections:
 					client[4] = 0
-				
+
 			for connection in connections:
 				connection[0].sendall(
 					("Done!\nFinished list using Quick sort: " + str(inputList) + "\nYou have " + str(

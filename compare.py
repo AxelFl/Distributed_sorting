@@ -39,7 +39,7 @@ def left_is_smaller(x, y, all_connections, closed_clients):
 		return left_is_smaller(x, y, all_connections, closed_clients)
 
 	# Return the appropriate answer
-	if "y" in data.lower():
+	elif "y" in data.lower():
 		return False
 	elif "n" in data.lower():
 		return True
